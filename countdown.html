@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Countdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f4f1ea;
+        --panel: #ffffff;
+        --panel-line: #ddd5c4;
+        --ink: #26221b;
+        --ink-soft: #71665a;
+        --board: #17352e;
+        --board-panel: #21463c;
+        --board-line: #2f5a4e;
+        --board-text: #f6ead6;
+        --board-soft: #a8c3b4;
+        --accent: #b6541f;
+        --track-bg: #e7ddca;
+        --shadow: 0 10px 28px rgba(38, 34, 27, 0.12);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12100d;
+          --panel: #1d1a16;
+          --panel-line: #38322a;
+          --ink: #f0e9dc;
+          --ink-soft: #a89a86;
+          --board: #0c1713;
+          --board-panel: #16261f;
+          --board-line: #27453a;
+          --board-text: #f6ead6;
+          --board-soft: #93b3a3;
+          --accent: #eda25e;
+          --track-bg: #33291d;
+          --shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Outfit", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
+      .wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 36px 18px 48px;
+      }
+      a { color: var(--accent); }
+
+      /* ---------- Header ---------- */
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      h1 {
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: 0.01em;
+      }
+      h1 .arrow { color: var(--accent); margin: 0 4px; }
+      .head .date {
+        font-size: 15px;
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      /* ---------- Timer ---------- */
+      .board {
+        margin-top: 18px;
+        background: var(--board);
+        border-radius: 14px;
+        padding: clamp(18px, 4vw, 28px);
+        box-shadow: var(--shadow);
+        color: var(--board-text);
+      }
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: clamp(8px, 2vw, 14px);
+      }
+      .tile {
+        background: var(--board-panel);
+        border: 1px solid var(--board-line);
+        border-radius: 10px;
+        padding: clamp(14px, 3vw, 22px) 4px;
+        text-align: center;
+      }
+      .tile .num {
+        font-size: clamp(34px, 9vw, 58px);
+        font-weight: 700;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+      .tile .lbl {
+        margin-top: 7px;
+        font-size: 11.5px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--board-soft);
+      }
+
+      /* ---------- Progress ---------- */
+      .progress { margin-top: 26px; }
+      .progress-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 14px;
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+      .progress-top .pct {
+        font-weight: 700;
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+        font-size: 15px;
+      }
+      .track {
+        margin-top: 9px;
+        height: 10px;
+        border-radius: 99px;
+        background: var(--track-bg);
+        overflow: hidden;
+      }
+      .track .fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 99px;
+        background: var(--accent);
+        transition: width 0.8s ease;
+      }
+
+      /* ---------- Flight ---------- */
+      .flight {
+        margin-top: 30px;
+        background: var(--panel);
+        border: 1px solid var(--panel-line);
+        border-radius: 14px;
+        padding: 6px 18px;
+      }
+      .leg {
+        padding: 14px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .leg + .leg { border-top: 1px solid var(--panel-line); }
+      .leg .when {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+      .leg .times {
+        font-size: 18px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        margin-top: 2px;
+      }
+      .leg .times .arrow { color: var(--accent); margin: 0 4px; }
+      .leg .meta { font-size: 14px; color: var(--ink-soft); margin-top: 1px; }
+      .leg .side { text-align: right; }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .status .dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .status .dot { animation: none; }
+      }
+      .track-link {
+        display: block;
+        margin-top: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+      }
+      .track-link:hover { text-decoration: underline; }
+      .src {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--ink-soft);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px; height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      @media (max-width: 480px) {
+        .tiles { grid-template-columns: repeat(2, 1fr); }
+        .leg .side { text-align: left; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="head">
+        <h1>ORD <span class="arrow">→</span> BOS</h1>
+        <span class="date">Fri, Nov 13, 2026</span>
+      </div>
+
+      <section class="board" aria-label="Countdown">
+        <div class="tiles" role="timer" aria-live="off">
+          <div class="tile"><div class="num" id="d">–</div><div class="lbl">Days</div></div>
+          <div class="tile"><div class="num" id="h">–</div><div class="lbl">Hours</div></div>
+          <div class="tile"><div class="num" id="m">–</div><div class="lbl">Minutes</div></div>
+          <div class="tile"><div class="num" id="s">–</div><div class="lbl">Seconds</div></div>
+        </div>
+        <p class="sr-only" id="srSummary"></p>
+      </section>
+
+      <section class="progress" aria-label="Progress">
+        <div class="progress-top">
+          <span>Oct 26</span>
+          <span class="pct" id="pct">0%</span>
+          <span>Nov 13</span>
+        </div>
+        <div class="track"><div class="fill" id="fill"></div></div>
+      </section>
+
+      <section class="flight" aria-label="Flight">
+        <div class="leg">
+          <div>
+            <div class="when">Fri, Nov 13</div>
+            <div class="times">ORD 7:05 AM CT <span class="arrow">→</span> BOS 10:32 AM ET</div>
+            <div class="meta">Delta DL2828 · Nonstop</div>
+          </div>
+          <div class="side">
+            <span class="status"><span class="dot" aria-hidden="true"></span><span id="flightStatus">Scheduled</span></span>
+            <a class="track-link" href="https://www.flightaware.com/live/flight/DAL2828" target="_blank" rel="noopener">Track DL2828 on FlightAware ↗</a>
+          </div>
+        </div>
+        <div class="leg">
+          <div>
+            <div class="when">Sun, Nov 15</div>
+            <div class="times">BOS 4:35 PM ET <span class="arrow">→</span> ORD 6:44 PM CT</div>
+            <div class="meta">Delta DL2646 · Nonstop</div>
+          </div>
+          <div class="side">
+            <a class="track-link" href="https://www.flightaware.com/live/flight/DAL2646" target="_blank" rel="noopener">Track DL2646 on FlightAware ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <p class="src">Flights DL2828 and DL2646 verified on FlightAware, Oct 26, 2026. Status follows the schedule until live tracking starts.</p>
+    </main>
+
+    <script>
+      (function () {
+        var DEPART = new Date('2026-11-13T07:05:00-06:00').getTime();
+        var ARRIVAL = new Date('2026-11-13T10:32:00-05:00').getTime();
+        var START = new Date('2026-10-26T00:00:00-04:00').getTime();
+
+        var el = {
+          d: document.getElementById('d'),
+          h: document.getElementById('h'),
+          m: document.getElementById('m'),
+          s: document.getElementById('s'),
+          sr: document.getElementById('srSummary'),
+          fill: document.getElementById('fill'),
+          pct: document.getElementById('pct'),
+          flightStatus: document.getElementById('flightStatus')
+        };
+
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+        var lastSecond = -1;
+        var lastMinuteSummary = -1;
+
+        function tick() {
+          var now = Date.now();
+          var diff = ARRIVAL - now;
+
+          var pct = Math.max(0, Math.min(100, ((now - START) / (ARRIVAL - START)) * 100));
+          el.fill.style.width = pct.toFixed(1) + '%';
+          el.pct.textContent = (pct < 10 ? pct.toFixed(1) : Math.round(pct)) + '%';
+
+          if (now < DEPART) {
+            el.flightStatus.textContent = 'Scheduled';
+          } else if (now < ARRIVAL) {
+            el.flightStatus.textContent = 'In flight';
+          } else {
+            el.flightStatus.textContent = 'Arrived';
+          }
+
+          if (diff > 0) {
+            var totalSec = Math.floor(diff / 1000);
+            if (totalSec !== lastSecond) {
+              lastSecond = totalSec;
+              var days = Math.floor(totalSec / 86400);
+              var hrs = Math.floor((totalSec % 86400) / 3600);
+              var min = Math.floor((totalSec % 3600) / 60);
+              var sec = totalSec % 60;
+              el.d.textContent = days;
+              el.h.textContent = pad(hrs);
+              el.m.textContent = pad(min);
+              el.s.textContent = pad(sec);
+              var minuteMark = Math.floor(totalSec / 60);
+              if (minuteMark !== lastMinuteSummary) {
+                lastMinuteSummary = minuteMark;
+                el.sr.textContent = days + ' days, ' + hrs + ' hours, and ' + min + ' minutes left.';
+              }
+            }
+          } else {
+            el.d.textContent = '0'; el.h.textContent = '00'; el.m.textContent = '00'; el.s.textContent = '00';
+            el.sr.textContent = 'Countdown finished.';
+          }
+        }
+
+        tick();
+        setInterval(tick, 250);
+      })();
+    </script>
+  </body>
+</html>
