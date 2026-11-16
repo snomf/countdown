@@ -5,41 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="data:," />
-    <title>Countdown</title>
+    <title>Countdown — The Second Visit</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg: #f4f1ea;
+        --bg: #e7ecf1;
         --panel: #ffffff;
-        --panel-line: #ddd5c4;
-        --ink: #26221b;
-        --ink-soft: #71665a;
-        --board: #17352e;
-        --board-panel: #21463c;
-        --board-line: #2f5a4e;
-        --board-text: #f6ead6;
-        --board-soft: #a8c3b4;
-        --accent: #b6541f;
-        --track-bg: #e7ddca;
-        --shadow: 0 10px 28px rgba(38, 34, 27, 0.12);
+        --panel-line: #c7d2de;
+        --ink: #172334;
+        --ink-soft: #5b6e84;
+        --board: #1b2c4a;
+        --board-panel: #263a5c;
+        --board-line: #3b567f;
+        --board-text: #f2f6fb;
+        --board-soft: #a9bed8;
+        --accent: #c23348;
+        --accent-bright: #e04a61;
+        --pill-bg: #fbe9ec;
+        --pill-ink: #9e2438;
+        --track-bg: #ccd7e3;
+        --shadow: 0 14px 32px rgba(23, 35, 52, 0.16);
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #12100d;
-          --panel: #1d1a16;
-          --panel-line: #38322a;
-          --ink: #f0e9dc;
-          --ink-soft: #a89a86;
-          --board: #0c1713;
-          --board-panel: #16261f;
-          --board-line: #27453a;
-          --board-text: #f6ead6;
-          --board-soft: #93b3a3;
-          --accent: #eda25e;
-          --track-bg: #33291d;
-          --shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+          --bg: #0a0f16;
+          --panel: #151f2d;
+          --panel-line: #2b3a4e;
+          --ink: #eef3f8;
+          --ink-soft: #93a5b9;
+          --board: #0d1930;
+          --board-panel: #182a49;
+          --board-line: #2c4a73;
+          --board-text: #f2f6fb;
+          --board-soft: #8ea9c9;
+          --accent: #ff6b80;
+          --accent-bright: #ff8596;
+          --pill-bg: #3a1e27;
+          --pill-ink: #ff9dab;
+          --track-bg: #23344a;
+          --shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
         }
       }
 
@@ -48,93 +54,133 @@
       body {
         background: var(--bg);
         color: var(--ink);
-        font-family: "Outfit", system-ui, sans-serif;
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
         line-height: 1.5;
       }
       .wrap {
-        max-width: 680px;
+        max-width: 700px;
         margin: 0 auto;
-        padding: 36px 18px 48px;
+        padding: 40px 18px 52px;
       }
       a { color: var(--accent); }
 
       /* ---------- Header ---------- */
-      .head {
+      .head { max-width: 560px; }
+      .place {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 0 0 8px;
+      }
+      h1 {
+        font-size: clamp(34px, 8vw, 48px);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
+      h1 .ft {
+        display: block;
+        font-size: clamp(20px, 5vw, 26px);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--ink-soft);
+        margin-top: 6px;
+      }
+      .head .date {
+        margin: 14px 0 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .head .date span { color: var(--ink-soft); font-weight: 500; }
+
+      /* ---------- Timer board ---------- */
+      .board {
+        margin-top: 24px;
+        background: var(--board);
+        border-radius: 18px;
+        padding: clamp(18px, 4vw, 28px);
+        box-shadow: var(--shadow);
+        color: var(--board-text);
+        border-top: 4px solid var(--accent);
+      }
+      .board-top {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
         gap: 12px;
         flex-wrap: wrap;
+        margin-bottom: 16px;
       }
-      h1 {
-        font-size: 22px;
+      .board-top .label {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--board-soft);
+      }
+      .board-top .when {
+        font-size: 14px;
         font-weight: 600;
-        margin: 0;
-        letter-spacing: 0.01em;
-      }
-      h1 .arrow { color: var(--accent); margin: 0 4px; }
-      .head .date {
-        font-size: 15px;
-        color: var(--ink-soft);
-        font-weight: 500;
-      }
-
-      /* ---------- Timer ---------- */
-      .board {
-        margin-top: 18px;
-        background: var(--board);
-        border-radius: 14px;
-        padding: clamp(18px, 4vw, 28px);
-        box-shadow: var(--shadow);
         color: var(--board-text);
       }
       .tiles {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: clamp(8px, 2vw, 14px);
+        gap: clamp(8px, 2vw, 12px);
       }
       .tile {
         background: var(--board-panel);
         border: 1px solid var(--board-line);
-        border-radius: 10px;
-        padding: clamp(14px, 3vw, 22px) 4px;
+        border-radius: 12px;
+        padding: clamp(16px, 3vw, 24px) 4px 14px;
         text-align: center;
       }
       .tile .num {
-        font-size: clamp(34px, 9vw, 58px);
-        font-weight: 700;
+        font-size: clamp(36px, 9vw, 60px);
+        font-weight: 800;
         line-height: 1;
         font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
       }
       .tile .lbl {
-        margin-top: 7px;
+        margin-top: 8px;
         font-size: 11.5px;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--board-soft);
       }
 
       /* ---------- Progress ---------- */
-      .progress { margin-top: 26px; }
+      .progress { margin-top: 28px; }
       .progress-top {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+        gap: 10px;
         font-size: 14px;
         color: var(--ink-soft);
-        font-weight: 500;
+        font-weight: 600;
       }
       .progress-top .pct {
-        font-weight: 700;
+        font-weight: 800;
         color: var(--ink);
         font-variant-numeric: tabular-nums;
-        font-size: 15px;
+        font-size: 16px;
+      }
+      .progress-note {
+        margin: 6px 0 0;
+        font-size: 13.5px;
+        color: var(--ink-soft);
       }
       .track {
-        margin-top: 9px;
-        height: 10px;
+        margin-top: 10px;
+        height: 12px;
         border-radius: 99px;
         background: var(--track-bg);
         overflow: hidden;
@@ -146,74 +192,73 @@
         background: var(--accent);
         transition: width 0.8s ease;
       }
+      @media (prefers-reduced-motion: reduce) {
+        .track .fill { transition: none; }
+      }
 
-      /* ---------- Flight ---------- */
-      .flight {
+      /* ---------- Details soon ---------- */
+      .details {
         margin-top: 30px;
         background: var(--panel);
         border: 1px solid var(--panel-line);
-        border-radius: 14px;
-        padding: 6px 18px;
+        border-radius: 16px;
+        padding: 20px 18px 8px;
       }
-      .leg {
-        padding: 14px 0;
+      .details h2 {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      .details .sub {
+        margin: 4px 0 6px;
+        font-size: 14.5px;
+        color: var(--ink-soft);
+      }
+      .row {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 14px;
-        flex-wrap: wrap;
+        padding: 13px 0;
       }
-      .leg + .leg { border-top: 1px solid var(--panel-line); }
-      .leg .when {
-        font-size: 13px;
+      .row + .row { border-top: 1px solid var(--panel-line); }
+      .row .name {
+        font-size: 15.5px;
         font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+      }
+      .row .hint {
+        font-size: 13.5px;
         color: var(--ink-soft);
+        margin-top: 1px;
       }
-      .leg .times {
-        font-size: 18px;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-        margin-top: 2px;
+      .pill {
+        flex: none;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--pill-ink);
+        background: var(--pill-bg);
+        border-radius: 99px;
+        padding: 5px 10px;
       }
-      .leg .times .arrow { color: var(--accent); margin: 0 4px; }
-      .leg .meta { font-size: 14px; color: var(--ink-soft); margin-top: 1px; }
-      .leg .side { text-align: right; }
-      .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
+      .facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 26px;
+      }
+      .fact {
         font-size: 13.5px;
         font-weight: 600;
         color: var(--ink);
+        background: var(--panel);
+        border: 1px solid var(--panel-line);
+        border-radius: 99px;
+        padding: 7px 12px;
       }
-      .status .dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        background: var(--accent);
-        animation: pulse 1.6s ease-in-out infinite;
-      }
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .status .dot { animation: none; }
-      }
-      .track-link {
-        display: block;
-        margin-top: 4px;
-        font-size: 14px;
-        font-weight: 500;
-        text-decoration: none;
-      }
-      .track-link:hover { text-decoration: underline; }
-      .src {
-        margin-top: 12px;
-        font-size: 13px;
-        color: var(--ink-soft);
-      }
+      .fact b { color: var(--accent); font-weight: 800; }
 
       .sr-only {
         position: absolute;
@@ -225,18 +270,23 @@
 
       @media (max-width: 480px) {
         .tiles { grid-template-columns: repeat(2, 1fr); }
-        .leg .side { text-align: left; }
+        .wrap { padding-top: 30px; }
       }
     </style>
   </head>
   <body>
     <main class="wrap">
-      <div class="head">
-        <h1>ORD <span class="arrow">→</span> BOS</h1>
-        <span class="date">Fri, Nov 13, 2026</span>
-      </div>
+      <header class="head">
+        <p class="place">Boston · Winter break</p>
+        <h1>The second visit <span class="ft">ft. Friends</span></h1>
+        <p class="date">Saturday, January 16, 2027 <span>— the start of the Boston trip</span></p>
+      </header>
 
-      <section class="board" aria-label="Countdown">
+      <section class="board" aria-label="Countdown to January 16, 2027">
+        <div class="board-top">
+          <span class="label">Counting down</span>
+          <span class="when">Jan 16, 2027</span>
+        </div>
         <div class="tiles" role="timer" aria-live="off">
           <div class="tile"><div class="num" id="d">–</div><div class="lbl">Days</div></div>
           <div class="tile"><div class="num" id="h">–</div><div class="lbl">Hours</div></div>
@@ -246,47 +296,53 @@
         <p class="sr-only" id="srSummary"></p>
       </section>
 
-      <section class="progress" aria-label="Progress">
+      <section class="progress" aria-label="Progress toward January 16">
         <div class="progress-top">
-          <span>Oct 26</span>
+          <span>Nov 15</span>
           <span class="pct" id="pct">0%</span>
-          <span>Nov 13</span>
+          <span>Jan 16</span>
         </div>
         <div class="track"><div class="fill" id="fill"></div></div>
+        <p class="progress-note">From the end of the first visit to the start of the second.</p>
       </section>
 
-      <section class="flight" aria-label="Flight">
-        <div class="leg">
+      <div class="facts" aria-label="Trip facts so far">
+        <span class="fact"><b>Where</b> &nbsp;Boston</span>
+        <span class="fact"><b>When</b> &nbsp;Jan 16–18</span>
+        <span class="fact"><b>Who</b> &nbsp;5 people</span>
+      </div>
+
+      <section class="details" aria-label="Trip details">
+        <h2>Details coming soon</h2>
+        <p class="sub">Flight info and other details will be added here once they're set.</p>
+        <div class="row">
           <div>
-            <div class="when">Fri, Nov 13</div>
-            <div class="times">ORD 7:05 AM CT <span class="arrow">→</span> BOS 10:32 AM ET</div>
-            <div class="meta">Delta DL2828 · Nonstop</div>
+            <div class="name">Flights</div>
+            <div class="hint">Times and flight numbers to be added</div>
           </div>
-          <div class="side">
-            <span class="status"><span class="dot" aria-hidden="true"></span><span id="flightStatus">Scheduled</span></span>
-            <a class="track-link" href="https://www.flightaware.com/live/flight/DAL2828" target="_blank" rel="noopener">Track DL2828 on FlightAware ↗</a>
-          </div>
+          <span class="pill">Soon</span>
         </div>
-        <div class="leg">
+        <div class="row">
           <div>
-            <div class="when">Sun, Nov 15</div>
-            <div class="times">BOS 4:35 PM ET <span class="arrow">→</span> ORD 6:44 PM CT</div>
-            <div class="meta">Delta DL2646 · Nonstop</div>
+            <div class="name">Stay</div>
+            <div class="hint">Where everyone's staying in Boston</div>
           </div>
-          <div class="side">
-            <a class="track-link" href="https://www.flightaware.com/live/flight/DAL2646" target="_blank" rel="noopener">Track DL2646 on FlightAware ↗</a>
+          <span class="pill">Soon</span>
+        </div>
+        <div class="row">
+          <div>
+            <div class="name">Plans</div>
+            <div class="hint">What the group is doing over the three days</div>
           </div>
+          <span class="pill">Soon</span>
         </div>
       </section>
-
-      <p class="src">Flights DL2828 and DL2646 verified on FlightAware, Oct 26, 2026. Status follows the schedule until live tracking starts.</p>
     </main>
 
     <script>
       (function () {
-        var DEPART = new Date('2026-11-13T07:05:00-06:00').getTime();
-        var ARRIVAL = new Date('2026-11-13T10:32:00-05:00').getTime();
-        var START = new Date('2026-10-26T00:00:00-04:00').getTime();
+        var TARGET = new Date('2027-01-16T00:00:00-05:00').getTime();
+        var START = new Date('2026-11-15T00:00:00-05:00').getTime();
 
         var el = {
           d: document.getElementById('d'),
@@ -295,8 +351,7 @@
           s: document.getElementById('s'),
           sr: document.getElementById('srSummary'),
           fill: document.getElementById('fill'),
-          pct: document.getElementById('pct'),
-          flightStatus: document.getElementById('flightStatus')
+          pct: document.getElementById('pct')
         };
 
         function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -306,19 +361,11 @@
 
         function tick() {
           var now = Date.now();
-          var diff = ARRIVAL - now;
+          var diff = TARGET - now;
 
-          var pct = Math.max(0, Math.min(100, ((now - START) / (ARRIVAL - START)) * 100));
+          var pct = Math.max(0, Math.min(100, ((now - START) / (TARGET - START)) * 100));
           el.fill.style.width = pct.toFixed(1) + '%';
           el.pct.textContent = (pct < 10 ? pct.toFixed(1) : Math.round(pct)) + '%';
-
-          if (now < DEPART) {
-            el.flightStatus.textContent = 'Scheduled';
-          } else if (now < ARRIVAL) {
-            el.flightStatus.textContent = 'In flight';
-          } else {
-            el.flightStatus.textContent = 'Arrived';
-          }
 
           if (diff > 0) {
             var totalSec = Math.floor(diff / 1000);
@@ -335,12 +382,12 @@
               var minuteMark = Math.floor(totalSec / 60);
               if (minuteMark !== lastMinuteSummary) {
                 lastMinuteSummary = minuteMark;
-                el.sr.textContent = days + ' days, ' + hrs + ' hours, and ' + min + ' minutes left.';
+                el.sr.textContent = days + ' days, ' + hrs + ' hours, and ' + min + ' minutes left until January 16, 2027.';
               }
             }
           } else {
             el.d.textContent = '0'; el.h.textContent = '00'; el.m.textContent = '00'; el.s.textContent = '00';
-            el.sr.textContent = 'Countdown finished.';
+            el.sr.textContent = 'Countdown finished. The second visit is here.';
           }
         }
 
