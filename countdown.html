@@ -3,396 +3,420 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="data:," />
-    <title>Countdown — The Second Visit</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>Countdown</title>
     <style>
       :root {
-        --bg: #e7ecf1;
-        --panel: #ffffff;
-        --panel-line: #c7d2de;
-        --ink: #172334;
-        --ink-soft: #5b6e84;
-        --board: #1b2c4a;
-        --board-panel: #263a5c;
-        --board-line: #3b567f;
-        --board-text: #f2f6fb;
-        --board-soft: #a9bed8;
-        --accent: #c23348;
-        --accent-bright: #e04a61;
-        --pill-bg: #fbe9ec;
-        --pill-ink: #9e2438;
-        --track-bg: #ccd7e3;
-        --shadow: 0 14px 32px rgba(23, 35, 52, 0.16);
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #0a0f16;
-          --panel: #151f2d;
-          --panel-line: #2b3a4e;
-          --ink: #eef3f8;
-          --ink-soft: #93a5b9;
-          --board: #0d1930;
-          --board-panel: #182a49;
-          --board-line: #2c4a73;
-          --board-text: #f2f6fb;
-          --board-soft: #8ea9c9;
-          --accent: #ff6b80;
-          --accent-bright: #ff8596;
-          --pill-bg: #3a1e27;
-          --pill-ink: #ff9dab;
-          --track-bg: #23344a;
-          --shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
-        }
+        --bg: #fdfaf8;
+        --ink: #1b1a19;
+        --soft: #8a827d;
+        --line: #ece3df;
+        --track: #f1e8e4;
+        --accent: #e2595d;
+        --accent-soft: #fdeceb;
       }
 
       * { box-sizing: border-box; }
-      html, body { margin: 0; padding: 0; }
+      html, body { height: 100%; }
+
       body {
+        margin: 0;
+        min-height: 100%;
         background: var(--bg);
         color: var(--ink);
-        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+        font-family: ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
-        line-height: 1.5;
-      }
-      .wrap {
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 40px 18px 52px;
-      }
-      a { color: var(--accent); }
-
-      /* ---------- Header ---------- */
-      .head { max-width: 560px; }
-      .place {
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin: 0 0 8px;
-      }
-      h1 {
-        font-size: clamp(34px, 8vw, 48px);
-        font-weight: 800;
-        line-height: 1.05;
-        letter-spacing: -0.02em;
-        margin: 0;
-      }
-      h1 .ft {
-        display: block;
-        font-size: clamp(20px, 5vw, 26px);
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        color: var(--ink-soft);
-        margin-top: 6px;
-      }
-      .head .date {
-        margin: 14px 0 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--ink);
-      }
-      .head .date span { color: var(--ink-soft); font-weight: 500; }
-
-      /* ---------- Timer board ---------- */
-      .board {
-        margin-top: 24px;
-        background: var(--board);
-        border-radius: 18px;
-        padding: clamp(18px, 4vw, 28px);
-        box-shadow: var(--shadow);
-        color: var(--board-text);
-        border-top: 4px solid var(--accent);
-      }
-      .board-top {
         display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-      }
-      .board-top .label {
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--board-soft);
-      }
-      .board-top .when {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--board-text);
-      }
-      .tiles {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: clamp(8px, 2vw, 12px);
-      }
-      .tile {
-        background: var(--board-panel);
-        border: 1px solid var(--board-line);
-        border-radius: 12px;
-        padding: clamp(16px, 3vw, 24px) 4px 14px;
-        text-align: center;
-      }
-      .tile .num {
-        font-size: clamp(36px, 9vw, 60px);
-        font-weight: 800;
-        line-height: 1;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: -0.02em;
-      }
-      .tile .lbl {
-        margin-top: 8px;
-        font-size: 11.5px;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--board-soft);
+        flex-direction: column;
+        overflow-x: hidden;
       }
 
-      /* ---------- Progress ---------- */
-      .progress { margin-top: 28px; }
-      .progress-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 10px;
-        font-size: 14px;
-        color: var(--ink-soft);
-        font-weight: 600;
-      }
-      .progress-top .pct {
-        font-weight: 800;
-        color: var(--ink);
-        font-variant-numeric: tabular-nums;
-        font-size: 16px;
-      }
-      .progress-note {
-        margin: 6px 0 0;
-        font-size: 13.5px;
-        color: var(--ink-soft);
-      }
-      .track {
-        margin-top: 10px;
-        height: 12px;
-        border-radius: 99px;
-        background: var(--track-bg);
+      /* ---------- floating backdrop ---------- */
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
         overflow: hidden;
       }
-      .track .fill {
+      .bg img {
+        position: absolute;
+        width: clamp(140px, 22vw, 280px);
+        height: auto;
+        border-radius: 18px;
+        object-fit: cover;
+        opacity: 0.5;
+        filter: saturate(0.9) contrast(0.95);
+        box-shadow: 0 18px 40px rgba(27, 26, 25, 0.12);
+        animation: drift 26s ease-in-out infinite alternate;
+      }
+      .bg .one {
+        top: 8%;
+        left: 4%;
+        width: clamp(110px, 14vw, 190px);
+        transform: rotate(-6deg);
+        animation-duration: 24s;
+      }
+      .bg .two {
+        top: 14%;
+        right: 5%;
+        transform: rotate(5deg);
+        animation-duration: 31s;
+        animation-delay: -6s;
+      }
+      .bg .three {
+        bottom: 6%;
+        left: 7%;
+        transform: rotate(4deg);
+        animation-duration: 28s;
+        animation-delay: -12s;
+      }
+      @keyframes drift {
+        from { translate: 0 0; rotate: -1.5deg; }
+        to { translate: 0 -22px; rotate: 2deg; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .bg img { animation: none; }
+      }
+      @media (max-width: 720px) {
+        .bg img { opacity: 0.32; }
+        .bg .three { display: none; }
+      }
+
+      /* ---------- content ---------- */
+      main {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 56px 22px 24px;
+      }
+
+      .timer {
+        font-size: clamp(46px, 12vw, 138px);
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum" 1;
+        white-space: nowrap;
+      }
+      .timer .unit {
+        font-size: 0.32em;
+        font-weight: 500;
+        letter-spacing: 0;
+        margin: 0 0.22em 0 0.05em;
+        color: var(--soft);
+      }
+      .timer .unit:last-child { margin-right: 0; }
+
+      .date {
+        margin: 22px 0 0;
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      /* ---------- progress ---------- */
+      .progress {
+        width: min(560px, 100%);
+        margin-top: 40px;
+      }
+      .bar {
+        position: relative;
+        height: 14px;
+        border-radius: 99px;
+        background: var(--track);
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+      .bar .fill {
         height: 100%;
         width: 0%;
         border-radius: 99px;
-        background: var(--accent);
-        transition: width 0.8s ease;
+        background: linear-gradient(90deg, #f0b3b0, var(--accent));
+        transition: width 1s ease;
       }
       @media (prefers-reduced-motion: reduce) {
-        .track .fill { transition: none; }
+        .bar .fill { transition: none; }
       }
-
-      /* ---------- Details soon ---------- */
-      .details {
-        margin-top: 30px;
-        background: var(--panel);
-        border: 1px solid var(--panel-line);
-        border-radius: 16px;
-        padding: 20px 18px 8px;
-      }
-      .details h2 {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        margin: 0;
-      }
-      .details .sub {
-        margin: 4px 0 6px;
-        font-size: 14.5px;
-        color: var(--ink-soft);
-      }
-      .row {
+      .bar-labels {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        gap: 14px;
-        padding: 13px 0;
-      }
-      .row + .row { border-top: 1px solid var(--panel-line); }
-      .row .name {
-        font-size: 15.5px;
-        font-weight: 600;
-      }
-      .row .hint {
-        font-size: 13.5px;
-        color: var(--ink-soft);
-        margin-top: 1px;
-      }
-      .pill {
-        flex: none;
+        align-items: baseline;
+        margin-top: 10px;
         font-size: 12px;
-        font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: var(--pill-ink);
-        background: var(--pill-bg);
-        border-radius: 99px;
-        padding: 5px 10px;
+        color: var(--soft);
       }
-      .facts {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 26px;
-      }
-      .fact {
-        font-size: 13.5px;
-        font-weight: 600;
+      .bar-labels .pct {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0;
         color: var(--ink);
-        background: var(--panel);
-        border: 1px solid var(--panel-line);
-        border-radius: 99px;
-        padding: 7px 12px;
+        font-variant-numeric: tabular-nums;
       }
-      .fact b { color: var(--accent); font-weight: 800; }
+
+      /* ---------- flight pill ---------- */
+      .pill-row {
+        margin-top: 38px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid #f3d3d2;
+        background: var(--accent-soft);
+        color: #a83339;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 11px 18px;
+        border-radius: 99px;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+      .pill:hover {
+        background: #fbe2e1;
+        box-shadow: 0 8px 18px rgba(226, 89, 93, 0.16);
+      }
+      .pill:active { transform: scale(0.97); }
+      .pill:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .pill .tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #ffffff;
+        background: var(--accent);
+        border-radius: 99px;
+        padding: 3px 8px;
+      }
+      .panel {
+        max-width: 380px;
+        margin: 16px auto 0;
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: var(--soft);
+        display: none;
+      }
+      .panel.open { display: block; }
+
+      /* ---------- footer ---------- */
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 18px 20px 26px;
+        font-size: 12.5px;
+        color: var(--soft);
+        font-variant-numeric: tabular-nums;
+      }
+      footer b {
+        font-weight: 600;
+        color: #514b47;
+      }
 
       .sr-only {
         position: absolute;
-        width: 1px; height: 1px;
+        width: 1px;
+        height: 1px;
         overflow: hidden;
         clip: rect(0 0 0 0);
         white-space: nowrap;
       }
 
-      @media (max-width: 480px) {
-        .tiles { grid-template-columns: repeat(2, 1fr); }
-        .wrap { padding-top: 30px; }
+      #confetti {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
       }
     </style>
   </head>
   <body>
-    <main class="wrap">
-      <header class="head">
-        <p class="place">Boston · Winter break</p>
-        <h1>The second visit <span class="ft">ft. Friends</span></h1>
-        <p class="date">Saturday, January 16, 2027 <span>— the start of the Boston trip</span></p>
-      </header>
+    <div class="bg" aria-hidden="true">
+      <img class="one" src="https://s3.us-east-1.amazonaws.com/cdn.designcrowd.com/blog/airbnb-logo-history/Color-Airbnb-Logo.jpg" alt="" onerror="this.remove()" />
+      <img class="two" src="https://cdn.crowdriff.com/default/52e607e4-6e97-f6ba-8faa-e2a2fd1ec16a/1440.jpg" alt="" onerror="this.remove()" />
+      <img class="three" src="https://a0.muscache.com/im/pictures/miso/Hosting-1068915600604496702/original/6bf9855f-9d2e-490b-aac4-d4023cb8c3c1.jpeg?im_w=2560" alt="" onerror="this.remove()" />
+    </div>
 
-      <section class="board" aria-label="Countdown to January 16, 2027">
-        <div class="board-top">
-          <span class="label">Counting down</span>
-          <span class="when">Jan 16, 2027</span>
-        </div>
-        <div class="tiles" role="timer" aria-live="off">
-          <div class="tile"><div class="num" id="d">–</div><div class="lbl">Days</div></div>
-          <div class="tile"><div class="num" id="h">–</div><div class="lbl">Hours</div></div>
-          <div class="tile"><div class="num" id="m">–</div><div class="lbl">Minutes</div></div>
-          <div class="tile"><div class="num" id="s">–</div><div class="lbl">Seconds</div></div>
-        </div>
-        <p class="sr-only" id="srSummary"></p>
-      </section>
+    <main>
+      <div class="timer" id="timer" aria-hidden="true">
+        <span id="d">0</span><span class="unit">d</span><span id="h">00</span><span class="unit">h</span><span id="m">00</span><span class="unit">m</span><span id="s">00</span><span class="unit">s</span>
+      </div>
+      <p class="sr-only" id="sr"></p>
 
-      <section class="progress" aria-label="Progress toward January 16">
-        <div class="progress-top">
-          <span>Nov 15</span>
+      <p class="date">January 16, 2027 - the Boston trip</p>
+
+      <section class="progress" aria-label="Trip planning progress">
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
+          <div class="fill" id="fill"></div>
+        </div>
+        <div class="bar-labels">
+          <span>Nov 15, 11:45am</span>
           <span class="pct" id="pct">0%</span>
           <span>Jan 16</span>
         </div>
-        <div class="track"><div class="fill" id="fill"></div></div>
-        <p class="progress-note">From the end of the first visit to the start of the second.</p>
       </section>
 
-      <div class="facts" aria-label="Trip facts so far">
-        <span class="fact"><b>Where</b> &nbsp;Boston</span>
-        <span class="fact"><b>When</b> &nbsp;Jan 16–18</span>
-        <span class="fact"><b>Who</b> &nbsp;5 people</span>
+      <div class="pill-row">
+        <button class="pill" id="flightBtn" aria-expanded="false" aria-controls="flightPanel">
+          Flight details <span class="tag">Soon</span>
+        </button>
+        <p class="panel" id="flightPanel">the info will go here when we decide what the plan will be: expanded trip, flights, etc</p>
       </div>
-
-      <section class="details" aria-label="Trip details">
-        <h2>Details coming soon</h2>
-        <p class="sub">Flight info and other details will be added here once they're set.</p>
-        <div class="row">
-          <div>
-            <div class="name">Flights</div>
-            <div class="hint">Times and flight numbers to be added</div>
-          </div>
-          <span class="pill">Soon</span>
-        </div>
-        <div class="row">
-          <div>
-            <div class="name">Stay</div>
-            <div class="hint">Where everyone's staying in Boston</div>
-          </div>
-          <span class="pill">Soon</span>
-        </div>
-        <div class="row">
-          <div>
-            <div class="name">Plans</div>
-            <div class="hint">What the group is doing over the three days</div>
-          </div>
-          <span class="pill">Soon</span>
-        </div>
-      </section>
     </main>
+
+    <footer id="since">Counting up from our last kiss</footer>
 
     <script>
       (function () {
+        var START = new Date('2026-11-15T11:45:00-05:00').getTime();
         var TARGET = new Date('2027-01-16T00:00:00-05:00').getTime();
-        var START = new Date('2026-11-15T00:00:00-05:00').getTime();
 
         var el = {
           d: document.getElementById('d'),
           h: document.getElementById('h'),
           m: document.getElementById('m'),
           s: document.getElementById('s'),
-          sr: document.getElementById('srSummary'),
+          sr: document.getElementById('sr'),
           fill: document.getElementById('fill'),
-          pct: document.getElementById('pct')
+          pct: document.getElementById('pct'),
+          bar: document.getElementById('bar'),
+          since: document.getElementById('since')
         };
+
+        var lastSec = -1;
+        var lastMin = -1;
 
         function pad(n) { return (n < 10 ? '0' : '') + n; }
 
-        var lastSecond = -1;
-        var lastMinuteSummary = -1;
-
         function tick() {
           var now = Date.now();
-          var diff = TARGET - now;
 
-          var pct = Math.max(0, Math.min(100, ((now - START) / (TARGET - START)) * 100));
-          el.fill.style.width = pct.toFixed(1) + '%';
-          el.pct.textContent = (pct < 10 ? pct.toFixed(1) : Math.round(pct)) + '%';
+          // countdown
+          var left = Math.max(0, TARGET - now);
+          var total = Math.floor(left / 1000);
+          if (total !== lastSec) {
+            lastSec = total;
+            var days = Math.floor(total / 86400);
+            var hrs = Math.floor((total % 86400) / 3600);
+            var min = Math.floor((total % 3600) / 60);
+            var sec = total % 60;
+            el.d.textContent = days;
+            el.h.textContent = pad(hrs);
+            el.m.textContent = pad(min);
+            el.s.textContent = pad(sec);
 
-          if (diff > 0) {
-            var totalSec = Math.floor(diff / 1000);
-            if (totalSec !== lastSecond) {
-              lastSecond = totalSec;
-              var days = Math.floor(totalSec / 86400);
-              var hrs = Math.floor((totalSec % 86400) / 3600);
-              var min = Math.floor((totalSec % 3600) / 60);
-              var sec = totalSec % 60;
-              el.d.textContent = days;
-              el.h.textContent = pad(hrs);
-              el.m.textContent = pad(min);
-              el.s.textContent = pad(sec);
-              var minuteMark = Math.floor(totalSec / 60);
-              if (minuteMark !== lastMinuteSummary) {
-                lastMinuteSummary = minuteMark;
-                el.sr.textContent = days + ' days, ' + hrs + ' hours, and ' + min + ' minutes left until January 16, 2027.';
-              }
+            if (Math.floor(total / 60) !== lastMin) {
+              lastMin = Math.floor(total / 60);
+              el.sr.textContent = days + ' days, ' + hrs + ' hours, ' + min + ' minutes until January 16, 2027.';
             }
-          } else {
-            el.d.textContent = '0'; el.h.textContent = '00'; el.m.textContent = '00'; el.s.textContent = '00';
-            el.sr.textContent = 'Countdown finished. The second visit is here.';
           }
+
+          // progress
+          var pct = Math.max(0, Math.min(100, ((now - START) / (TARGET - START)) * 100));
+          el.fill.style.width = pct.toFixed(3) + '%';
+          el.pct.textContent = pct.toFixed(5) + '%';
+          el.bar.setAttribute('aria-valuenow', Math.round(pct));
+
+          // count up since the first visit
+          var past = Math.max(0, now - START);
+          var pSec = Math.floor(past / 1000);
+          var pDays = Math.floor(pSec / 86400);
+          var pHrs = Math.floor((pSec % 86400) / 3600);
+          var pMin = Math.floor((pSec % 3600) / 60);
+          var pSecs = pSec % 60;
+          el.since.innerHTML = '<b>' + pDays + 'd ' + pHrs + 'h ' + pMin + 'm ' + pad(pSecs) + 's</b> since our last kiss ';
         }
 
         tick();
-        setInterval(tick, 250);
+        setInterval(tick, 500);
+
+        // ---------- confetti ----------
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var colors = ['#e2595d', '#f0b3b0', '#f6d6a8', '#9fc4b8', '#8ba6c9', '#1b1a19'];
+
+        function confetti(x, y) {
+          if (reduce) return;
+          var canvas = document.createElement('canvas');
+          canvas.id = 'confetti';
+          document.body.appendChild(canvas);
+          var ctx = canvas.getContext('2d');
+          var dpr = window.devicePixelRatio || 1;
+          canvas.width = window.innerWidth * dpr;
+          canvas.height = window.innerHeight * dpr;
+          ctx.scale(dpr, dpr);
+
+          var parts = [];
+          for (var i = 0; i < 90; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var speed = 4 + Math.random() * 9;
+            parts.push({
+              x: x,
+              y: y,
+              vx: Math.cos(angle) * speed * (0.6 + Math.random()),
+              vy: Math.sin(angle) * speed - 4,
+              w: 5 + Math.random() * 6,
+              h: 3 + Math.random() * 5,
+              rot: Math.random() * Math.PI,
+              vr: (Math.random() - 0.5) * 0.3,
+              color: colors[(Math.random() * colors.length) | 0],
+              life: 1
+            });
+          }
+
+          var start = performance.now();
+          function frame(t) {
+            var elapsed = t - start;
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            parts.forEach(function (p) {
+              p.vy += 0.32;
+              p.vx *= 0.99;
+              p.x += p.vx;
+              p.y += p.vy;
+              p.rot += p.vr;
+              p.life = Math.max(0, 1 - elapsed / 1900);
+              ctx.save();
+              ctx.globalAlpha = p.life;
+              ctx.translate(p.x, p.y);
+              ctx.rotate(p.rot);
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+              ctx.restore();
+            });
+            if (elapsed < 1900) {
+              requestAnimationFrame(frame);
+            } else {
+              canvas.remove();
+            }
+          }
+          requestAnimationFrame(frame);
+        }
+
+        // ---------- flight pill ----------
+        var btn = document.getElementById('flightBtn');
+        var panel = document.getElementById('flightPanel');
+
+        btn.addEventListener('click', function (e) {
+          var open = panel.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (open) {
+            var r = btn.getBoundingClientRect();
+            confetti(r.left + r.width / 2, r.top + r.height / 2);
+          }
+        });
       })();
     </script>
   </body>
